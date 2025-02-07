@@ -1,23 +1,14 @@
 import { FC, memo, useCallback, useEffect, useRef } from "react";
 import {
   Center,
-  FormControl,
-  FormLabel,
-  Input,
-  Modal,
-  ModalBody,
-  ModalCloseButton,
-  ModalContent,
-  ModalHeader,
-  ModalOverlay,
   Spinner,
-  Stack,
   useDisclosure,
   Wrap,
   WrapItem,
 } from "@chakra-ui/react";
 import { UserCard } from "../organisms/user/UserCard";
 import { useAllUsers } from "../../Hooks/useAllUsers";
+import { UserDetailModal } from "../organisms/user/UserDetailModal";
 
 export const UserManagement: FC = memo(() => {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -31,7 +22,7 @@ export const UserManagement: FC = memo(() => {
     }
   }, []);
 
-  const onClickUser = useCallback(() => onOpen());
+  const onClickUser = useCallback(() => onOpen(), []);
 
   return (
     <>
@@ -53,38 +44,7 @@ export const UserManagement: FC = memo(() => {
           ))}
         </Wrap>
       )}
-      <Modal
-        isOpen={isOpen}
-        onClose={onClose}
-        autoFocus={false}
-        motionPreset="slideInBottom"
-      >
-        <ModalOverlay />
-        <ModalContent pb={6}>
-          <ModalHeader>ユーザー詳細</ModalHeader>
-          <ModalCloseButton />
-          <ModalBody mx={4}>
-            <Stack spacing={4}>
-              <FormControl>
-                <FormLabel>名前</FormLabel>
-                <Input value={"ジャケ"} isReadOnly />
-              </FormControl>
-              <FormControl>
-                <FormLabel>フルネーム</FormLabel>
-                <Input value={"Takumi Okada"} isReadOnly />
-              </FormControl>
-              <FormControl>
-                <FormLabel>メール</FormLabel>
-                <Input value={"12345@mail.com"} isReadOnly />
-              </FormControl>
-              <FormControl>
-                <FormLabel>TEL</FormLabel>
-                <Input value={"090-1222-1222"} isReadOnly />
-              </FormControl>
-            </Stack>
-          </ModalBody>
-        </ModalContent>
-      </Modal>
+      <UserDetailModal isOpen={isOpen} onClose={onClose} />
     </>
   );
 });
