@@ -9,6 +9,7 @@ import {
 import { UserCard } from "../organisms/user/UserCard";
 import { useAllUsers } from "../../Hooks/useAllUsers";
 import { UserDetailModal } from "../organisms/user/UserDetailModal";
+import { useSelectUser } from "../../Hooks/useSelectUser";
 
 export const UserManagement: FC = memo(() => {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -22,7 +23,15 @@ export const UserManagement: FC = memo(() => {
     }
   }, []);
 
-  const onClickUser = useCallback(() => onOpen(), []);
+  const { onSelectUser, selectedUser } = useSelectUser();
+  // console.log(selectedUser);
+
+  const onClickUser = useCallback(
+    (id: number) => {
+      onSelectUser({ id, users, onOpen });
+    },
+    [users, onSelectUser, onOpen]
+  );
 
   return (
     <>
@@ -35,6 +44,7 @@ export const UserManagement: FC = memo(() => {
           {users.map((user) => (
             <WrapItem key={user.id} mx={"auto"}>
               <UserCard
+                id={user.id}
                 imageUrl="https://picsum.photos/400"
                 name={user.username}
                 fullName={user.name}
@@ -44,7 +54,7 @@ export const UserManagement: FC = memo(() => {
           ))}
         </Wrap>
       )}
-      <UserDetailModal isOpen={isOpen} onClose={onClose} />
+      <UserDetailModal user={selectedUser} isOpen={isOpen} onClose={onClose} />
     </>
   );
 });
