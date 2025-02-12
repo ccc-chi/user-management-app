@@ -10,6 +10,7 @@ import { UserCard } from "../organisms/user/UserCard";
 import { useAllUsers } from "../../Hooks/useAllUsers";
 import { UserDetailModal } from "../organisms/user/UserDetailModal";
 import { useSelectUser } from "../../Hooks/useSelectUser";
+import { useLoginUser } from "../../Hooks/useLoginUser";
 
 export const UserManagement: FC = memo(() => {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -24,7 +25,9 @@ export const UserManagement: FC = memo(() => {
   }, []);
 
   const { onSelectUser, selectedUser } = useSelectUser();
-  // console.log(selectedUser);
+
+  const { loginUser } = useLoginUser();
+  console.log(loginUser);
 
   const onClickUser = useCallback(
     (id: number) => {
